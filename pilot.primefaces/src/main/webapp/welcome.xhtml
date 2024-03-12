@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>JSF - User webpage</title>
+	</h:head>
+		
+<div class="card crud-demo">
+   <h:form id="form" rendered="#{userView.adminFlag}">
+   	YA WELCOME USER: <h:outputText value="#{login.email}"/><br/>
+   	 <p:commandButton value="Log Out" action="#{userView.logOut}"
+                  styleClass="ui-button-success" style="margin-right: .5rem">
+       </p:commandButton>
+       <p:growl id="messages" showDetail="true" />
+       	Language : 
+		<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+			valueChangeListener="#{language.countryLocaleCodeChanged}">
+   			<f:selectItems value="#{language.countriesInMap}" /> 
+   		</h:selectOneMenu>
+      
+      <p:dataTable id="dt-products" widgetVar="dtProducts" var="product" value="#{userView.getTickets()}"
+            reflow="true" styleClass="products-table" 
+            rowKey="#{product.departure_city}" paginator="true" rows="10" rowSelectMode="add" paginatorPosition="bottom">
+            <f:facet name="header">
+                <div class="products-table-header">
+                    <span style="font-weight: bold">TRIPS</span>
+                    <span class="filter-container ui-input-icon-left"> <i class="pi pi-search"></i>
+                        <p:inputText id="globalFilter" onkeyup="PF('dtProducts').filter()" placeholder="Search" />
+                    </span>
+                </div>
+            </f:facet>
+
+ <!--            <p:ajax event="rowSelect" update=":form:delete-products-button" />
+            <p:ajax event="rowUnselect" update=":form:delete-products-button" />
+            <p:ajax event="rowSelectCheckbox" update=":form:delete-products-button" />
+            <p:ajax event="rowUnselectCheckbox" update=":form:delete-products-button" />
+            <p:ajax event="toggleSelect" update=":form:delete-products-button" /> -->
+ 
+            <p:column selectionMode="multiple" exportable="false"></p:column>
+
+            <p:column headerText="Departure_City" sortBy="#{product.departure_city}" filterBy="#{product.departure_city}">
+                <h:outputText value="#{product.departure_city}" />
+            </p:column>
+            <p:column headerText="Arrival_City" sortBy="#{product.departure_city}" filterBy="#{product.arrival_city}">
+                <h:outputText value="#{product.arrival_city}" />
+            </p:column>
+            <p:column headerText="Departure Day Time" sortBy="#{product.departure_city}" filterBy="#{product.departure_day}">
+                <h:outputText value="#{product.departure_day}" />
+            </p:column>
+             <p:column headerText="Craft Number">
+                <h:outputText value="#{product.airplane.airplane_name}" />
+            </p:column>
+            <p:column headerText="Price" sortBy="#{product.price}">
+                <h:outputText value="#{product.price}" style="font-weight: 700">
+                    <f:convertNumber currencySymbol="$" type="currency" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="Seats">
+                <h:outputText value="#{product.booked_seats} / #{product.airplane.number_of_seats}" />
+            </p:column>
+           
+            <p:column exportable="false">
+        <!--         <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-product-content"
+                    oncomplete="PF('manageProductDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedTrip}" />
+                    <p:resetInput target=":dialogs:manage-product-content" />
+                </p:commandButton> -->
+                <p:commandButton class="ui-button-warning rounded-button" value="BOOK"
+                                 process="@this"   
+                                 oncomplete="PF('bookTripDialog').show()">
+                    <f:setPropertyActionListener value="#{product}" target="#{userView.selectedTrip}" /> 
+                    <f:setPropertyActionListener value="#{login.email}" target="#{userView.userEmail}" />                    
+                                       
+                </p:commandButton>
+            </p:column>
+
+        </p:dataTable>
+        
+	</h:form>
+	
+	
+    <h:form id="dialogs">
+  
+
+      <p:confirmDialog widgetVar="bookTripDialog" showEffect="fade" width="300"
+            message="Boook this Trip" header="Confirm" severity="warn">
+            <p:commandButton value="Yes" icon="pi pi-check" actionListener="#{userView.bookTrip}"
+                process="@this"  oncomplete="PF('bookTripDialog').hide()" />
+            <p:commandButton value="No" type="button" styleClass="ui-button-secondary" icon="pi pi-times"
+                onclick="PF('bookTripDialog').hide()" />
+        </p:confirmDialog>
+   
+
+        <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary"
+                icon="pi pi-times" />
+        </p:confirmDialog>
+    </h:form>
+</div>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>JSF - Admin webpage</title>
+	</h:head>
+	<h:body>
+	<h:form>
+	YA WELCOME ADMIN: <h:outputText value="#{login.email}"/><br/>
+	ADD Ticket<br/>
+		Departure city: <h:inputText  value="#{admin.departure_city}"  required="true"/> <br/>
+		Departure Date: <p:datePicker value="#{admin.departure_day}"  showTime="true" />
+		Arrival City: <h:inputText  value="#{admin.arrival_city}"  required="true"/><br/>
+		Arrival Date: 	<p:datePicker value="#{admin.arrival_day}" showTime="true" />
+		price: <h:inputText  value="#{admin.price}"   required="true"/><br/>
+		Assigned Airplane: <h:inputText  value="#{admin.airplane}"  required="true"/><br/>
+		
+		 
+	 <p:commandButton  value="Add ticket to System" action="#{admin.addTicket}" ></p:commandButton>
+</h:form>
+	</h:body>
+</html>

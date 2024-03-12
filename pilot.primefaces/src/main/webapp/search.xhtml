@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	lang="#{language.localeCode}">
+	
+
+	<h:body>
+	  <h1>Search</h1>
+
+	  <h:form >
+		Departure City: <h:inputText  value="#{signupBean.fname}"  />
+		Arrival City: <h:inputText value="#{signupBean.lname}" />
+		Departure Day Time: <h:inputText value="#{signupBean.email}"   />
+	
+	    <h:commandButton value="Search" action="#{signupBean.signup}" />
+	  </h:form>
+	</h:body>
+
+
+</html>
